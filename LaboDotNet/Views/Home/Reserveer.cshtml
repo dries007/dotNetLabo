@@ -1,0 +1,43 @@
+@using System.Collections.Generic
+@model object
+
+@{
+    ViewBag.Title = "Reserveer";
+}
+
+<h2>Reserveer</h2>
+<form>
+    <div class="form-group">
+        <label for="aloc">Afhaal Locatie:</label>
+        <select class="form-control" name="aloc" id="aloc">
+            @foreach (var item in (IEnumerable<Locatie>) ViewData["locaties"])
+            {
+                <option value="@item.id">@item.naam</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="bloc">Dropoff Locatie:</label>
+        <select class="form-control" name="bloc" id="bloc">
+            @foreach (var item in (IEnumerable<Locatie>) ViewData["locaties"])
+            {
+                <option value="@item.id">@item.naam</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="adate">Afhaal Datum</label>
+        <input type="date" name="adate" id="adate" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="bdate">Dropoff Datum</label>
+        <input type="date" name="bdate" id="bdate" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="model">Model:</label>
+        <select class="form-control" name="model" id="model">
+            <option>Ford Focus</option>
+            <option>BMW i3</option>
+        </select>
+    </div>
+</form>
