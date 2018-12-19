@@ -4,6 +4,8 @@
 
 <div>
     <h1 class="display-4">Welcome</h1>
+    
+    <h2>Login</h2>
     <form class="form-inline" action="/Home/Login" method="POST">
         <div class="input-group">
             <input placeholder="klanten nummer" name="klantnr" type="number" class="form-control">
@@ -13,5 +15,17 @@
         </div>
     </form>
     
+    <h2>Nieuwe klant?</h2>
+    <form action="/Home/Registreer" method="POST">
+        <div class="form-group">
+            <label for="naam">Naam</label>
+            <input type="text" name="naam" id="naam" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="address">Adress</label>
+            <textarea name="adress" id="adress" class="form-control" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Registreer</button>
+    </form>
 </div>
 

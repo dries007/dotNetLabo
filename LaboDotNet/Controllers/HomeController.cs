@@ -1,12 +1,22 @@
 ﻿using System;
 using System.Diagnostics;
 using LaboDotNet.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaboDotNet.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISession _session;
+
+        public HomeController(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _session = _httpContextAccessor.HttpContext.Session;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -16,8 +26,40 @@ namespace LaboDotNet.Controllers
         {
             if (Request.Method == "POST")
             {
-                Console.WriteLine("Login", klantnr);
-                //todo user auth & login, session stuff
+                Console.WriteLine("Login " + klantnr);
+
+                var r = Klanten.instance.Select(klantnr);
+                
+                Console.WriteLine(r);
+                
+                if (r == null) return RedirectToAction("Index");
+
+                _session.SetString("KlantNaam", r["naam"].ToString());
+                _session.SetInt32("KlantNr", (int)r["nr"]);
+                
+                return RedirectToAction("Klant");
+            }
+            else
+            {
+                return RedirectToAction("Index");    
+            }
+        }
+
+        public IActionResult Registreer(string naam, string adress)
+        {
+            if (Request.Method == "POST")
+            {
+                Console.WriteLine("Registreer " + naam, adress);
+
+                var r = Klanten.instance.Add(naam, adress);
+                
+                Console.WriteLine(r);
+                
+                if (r == null) return RedirectToAction("Index");
+
+                _session.SetString("KlantNaam", r["naam"].ToString());
+                _session.SetInt32("KlantNr", (int)r["nr"]);
+                
                 return RedirectToAction("Klant");
             }
             else
@@ -28,12 +70,14 @@ namespace LaboDotNet.Controllers
         
         public IActionResult Klant()
         {
+            ViewData["reservaties"] = Reservaties.instance.SelectByKlant(_session.GetInt32("KlantNr").Value);
             return View();
         }
 
         public IActionResult Reserveer()
         {
             ViewData["locaties"] = Locatie.Locaties;
+            ViewData["autos"] = Auto.Autos;
             return View();
         }
 

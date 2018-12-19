@@ -20,7 +20,11 @@ namespace LaboDotNet.Models
             set { _instance = value; }
         }
 
-        private DbConnection connect()
+        private DbConnect()
+        {
+        }
+
+        public MySqlConnection connect()
         {
             var connstring = "Server=localhost; database=LaboDotNet; UID=LaboDotNet; password=JCq9WrbuRAPqr8VQ";
             var c = new MySqlConnection(connstring);

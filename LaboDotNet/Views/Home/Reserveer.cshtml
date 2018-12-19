@@ -36,8 +36,13 @@
     <div class="form-group">
         <label for="model">Model:</label>
         <select class="form-control" name="model" id="model">
-            <option>Ford Focus</option>
-            <option>BMW i3</option>
+            <select class="form-control" name="bloc" id="bloc">
+                @foreach (var item in (IEnumerable<Auto>) ViewData["auto"])
+                {
+                    <option value="@item.id">@item.naam</option>
+                }
+            </select>
         </select>
     </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>

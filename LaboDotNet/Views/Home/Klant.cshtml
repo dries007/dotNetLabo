@@ -1,11 +1,22 @@
+@using System.Data
+@using Microsoft.AspNetCore.Http
 @model object
+@using LaboDotNet.Models
 
 @{
     ViewBag.Title = "Klant Overzicht";
 }
 
 <h2>Klant Overzicht</h2>
-//todo: reservaties
+
+<p>Welkom @Context.Session.GetString("KlantNaam"), uw klantennummer: <b>@Context.Session.GetInt32("KlantNr")</b>.</p>
 
 <a href="/Home/Reserveer" class="btn btn-primary">Nieuwe Reservatie</a>
 
+<h2>Reservaties</h2>
+<ul>
+@foreach (var item in (DataRow[]) ViewData["reservaties"])
+{
+    <li>@Locatie.getNameById((int)item["van"]) &rarr; @Locatie.getNameById((int)item["naar"]) met @Auto.getNameById((int)item["auto"]) </li>
+}
+</ul>
